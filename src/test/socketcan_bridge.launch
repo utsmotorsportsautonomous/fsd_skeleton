@@ -1,0 +1,22 @@
+<launch>
+	<arg name="zed_launch" value="$(find zed_wrapper)/"/>
+	
+	<include file="$(arg zed_launch)/launch/zed.launch"/>
+	
+	<node name="socketcan_bridge_can0" pkg="socketcan_bridge" type="socketcan_bridge_node">
+		<param name="can_device" value="can0"/>
+		<remap from="/received_messages" to="can0_received_messages"/>
+		<remap from="/sent_messages" to="can0_sent_messages"/>
+	</node>
+
+	<node name="socketcan_bridge_can1" pkg="socketcan_bridge" type="socketcan_bridge_node">
+		<param name="can_device" value="can1"/>
+		<remap from="/received_messages" to="can1_received_messages"/>
+		<remap from="/sent_messages" to="can1_sent_messages"/>
+	</node>
+
+	<node name="hokuyo_laser" pkg="urg_node" type="urg_node">
+		<param name="ip_address" value="192.168.1.11"/>
+	</node>	
+
+</launch>
